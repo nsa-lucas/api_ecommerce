@@ -1,0 +1,17 @@
+from flask import Flask
+
+#CREATE INSTANCE FROM FLASK
+app = Flask(__name__) 
+
+#DEFINE ROOT ROUTE (HOME PAGE) AND FUNCTION  that will be executed when requesting
+
+#ROOT ROUTE
+@app.route('/')
+
+#DEFINE FUNCTION
+
+def hello_world():
+    return 'Hello World'
+
+#ACTIVE DEBUG - USING IN DEV MODE
+app.run(debug=True)
