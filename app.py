@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 # IMPORTANDO BANCO DE DADOS SQLALCHEMY- SALVA OS DADOS EM UM ARQUIVO TXT 
 # USADO EM APLICACOES MAIS SIMPLES OU EM MODO DEV
@@ -32,11 +32,21 @@ with app.app_context():
 
 def add_product():
     data = request.json
-    product = Product(name=data['name'], price=data['price'], description=data.get('description', ''))
-    db.session.add(product)
-    db.session.commit()
 
-    return 'Produto cadastrado com sucesso !'
+    if data.get('name') and data.get('price'):
+        product = Product(
+            name=data['name'], 
+            price=data['price'], 
+            description=data.get('description', '')
+        )
+        
+        db.session.add(product)
+        db.session.commit()
+
+        return jsonify({'message': 'Product added successfully'})
+    
+    return jsonify({'message': 'Invalid Product data'}), 400
+            
 
 # DEFININDO ROTA RAIZ E FUNCAO QUE SERA EXECUTADA AO REQUISITAR
 @app.route('/')
