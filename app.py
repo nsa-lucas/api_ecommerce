@@ -46,7 +46,25 @@ def add_product():
         return jsonify({'message': 'Product added successfully'})
     
     return jsonify({'message': 'Invalid Product data'}), 400
-            
+
+# DEFININDO ROTA DE DELEÇÃO DE PRODUTOS
+@app.route('/api/products/delete/<int:product_id>', methods=['DELETE'])
+
+def delete_product(product_id):
+    # Recuperando produto da base de dados
+    # Validar se produto existe
+
+    product = Product.query.get(product_id)
+    
+    if product:
+        db.session.delete(product)
+        db.session.commit()
+        return jsonify({'message': 'Product deleted successfully'})
+    
+    return jsonify({'message': 'Invalid Product identyfier'}), 400
+
+
+
 
 # DEFININDO ROTA RAIZ E FUNCAO QUE SERA EXECUTADA AO REQUISITAR
 @app.route('/')
