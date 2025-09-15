@@ -1,17 +1,25 @@
 from flask import Flask
 
-#CREATE INSTANCE FROM FLASK
+# IMPORTANDO BANCO DE DADOS SQLALCHEMY- SALVA OS DADOS EM UM ARQUIVO TXT 
+# USADO EM APLICACOES MAIS SIMPLES OU EM MODO DEV
+from flask_sqlalchemy import SQLAlchemy 
+
+# CRIANDO INSTANCIA DO FLASK
 app = Flask(__name__) 
 
-#DEFINE ROOT ROUTE (HOME PAGE) AND FUNCTION  that will be executed when requesting
+# DEFININDO CAMINHO DO BANCO DE DADOS
+app.config['SQLAlchemy_DATABASE_URL'] = 'sqlite:///ecommerce.db'
 
-#ROOT ROUTE
+db = SQLAlchemy(app)
+
+# DEFININDO ROTA RAIZ E FUNCAO QUE SERA EXECUTADA AO REQUISITAR
 @app.route('/')
-
-#DEFINE FUNCTION
 
 def hello_world():
     return 'Hello World'
 
-#ACTIVE DEBUG - USING IN DEV MODE
-app.run(debug=True)
+# ativando modo debug - sempre em modo dev
+
+if __name__ == "__main__":
+    app.run(debug=True)
+    
