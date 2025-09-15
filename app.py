@@ -61,7 +61,7 @@ def delete_product(product_id):
         db.session.commit()
         return jsonify({'message': 'Product deleted successfully'})
     
-    return jsonify({'message': 'Invalid Product identyfier'}), 400
+    return jsonify({'message': 'Product not found'}), 404
 
 
 
