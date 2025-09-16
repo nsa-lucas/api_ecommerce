@@ -81,6 +81,7 @@ def get_product_detail(product_id):
     return jsonify({'message': 'Product not found'}), 404
 
 
+# DEFININDO ROTA DE LISTAGEM DE TODOS OS PRODUTOS
 @app.route('/api/products/', methods=['GET'])
 
 def get_all_products():
@@ -100,6 +101,31 @@ def get_all_products():
         return jsonify(all_products)
     
     return jsonify({'message': 'Products not found'}), 404
+
+
+# DEFININDO ROTA DE ATUALIZAÇÃO DE PRODUTO
+@app.route('/api/products/<int:product_id>', methods=['PUT'])
+
+def update_product(product_id):
+    data = request.json
+
+    product = Product.query.get(product_id)
+
+    if product:
+        product.name = data.get('name', product.name)
+        product.price = data.get('price', product.price)
+        product.description = data.get('description', product.description)
+
+        db.session.commit()
+
+        return jsonify({'message': 'Product updated successfully'})
+
+    return jsonify({'message': 'Product not found'}), 404
+
+        
+
+
+
 
 # DEFININDO ROTA RAIZ E FUNCAO QUE SERA EXECUTADA AO REQUISITAR
 @app.route('/')
