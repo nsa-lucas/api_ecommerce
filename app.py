@@ -64,7 +64,42 @@ def delete_product(product_id):
     return jsonify({'message': 'Product not found'}), 404
 
 
+# DEFININDO ROTA DE LISTAGEM DE PRODUTOS
+@app.route('/api/products/<int:product_id>', methods=['GET'])
 
+def get_product_detail(product_id):
+    product = Product.query.get(product_id)
+
+    if product:
+        return jsonify({
+            'id': product.id,
+            'name': product.name,
+            'price': product.price,
+            'description': product.description
+        })
+    
+    return jsonify({'message': 'Product not found'}), 404
+
+
+@app.route('/api/products/', methods=['GET'])
+
+def get_all_products():
+    products = db.session.query(Product).all()
+
+    all_products = []
+
+    for p in products:
+        all_products.append({
+            'id': p.id,
+            'name': p.name,
+            'price': p.price,
+            'description': p.description
+        })
+
+    if all_products:
+        return jsonify(all_products)
+    
+    return jsonify({'message': 'Products not found'}), 404
 
 # DEFININDO ROTA RAIZ E FUNCAO QUE SERA EXECUTADA AO REQUISITAR
 @app.route('/')
