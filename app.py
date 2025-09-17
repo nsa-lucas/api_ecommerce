@@ -1,7 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 
 from extensions import db
-
 from routes import register_routes
 
 
