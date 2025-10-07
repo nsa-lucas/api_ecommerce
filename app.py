@@ -21,7 +21,7 @@ register_routes(app)
 @app.route('/')
 
 def hello_world():
-    return 'Hello World'
+    return 'deu certo cara'
 
 # ativando modo debug - sempre em modo dev
 if __name__ == "__main__":

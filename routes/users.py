@@ -1,3 +1,4 @@
+import email
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -11,8 +12,8 @@ users_bp = Blueprint('users',__name__, url_prefix='/api/users')
 def add_user():
     data = request.json
 
-# VERIFICAR SE USERNAME JA EXISTE - pendente
-# VERIFICAR SE EMAIL JA EXISTE - pendente
+# VERIFICAR SE USERNAME JA EXISTE - ok
+# VERIFICAR SE EMAIL JA EXISTE - ok
 # CRIPTOGRAFAR SENHA ANTES IR PRA BANCO DE DADOS - ok
 
     
@@ -50,8 +51,72 @@ def add_user():
         'message':'Invalid user data'
     }),400
 
-   
+@users_bp.route('/delete/<int:user_id>', methods=['DELETE'])
 
-    
+def delete_user(user_id):
 
+    user = User.query.get(user_id)
     
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'})
+    
+    return jsonify({'message': 'User not found'}), 404
+
+
+@users_bp.route('/', methods=['GET'])
+
+def get_all_users():
+
+    users = db.session.query(User).all()
+
+    all_users = []
+
+    for user in users:
+        all_users.append({
+            'id': user.id,
+            'name': user.username,
+            'email': user.email
+        })
+
+    if all_users:
+        return jsonify(all_users)
+    
+    return jsonify({'message': 'Users not found'}), 404    
+
+@users_bp.route('/update/<int:user_id>', methods=['PUT'])
+
+def update_user(user_id):
+
+    data = request.json
+
+    user = User.query.get(user_id)
+
+    if user:
+
+        if data.get('username'):
+
+            username_already_exists = User.query.filter_by(username=data.get('username')).first()
+
+            if username_already_exists:
+
+                return jsonify({'message': 'Username already exists'}), 404
+                
+            user.username = data.get('username')
+        
+        if data.get('email'):
+
+            email_already_exists = User.query.filter_by(email=data['email']).first()
+
+            if email_already_exists:
+                
+                return jsonify({'message': 'Email already exists'}), 404
+
+            user.email = data.get('email')
+
+        db.session.commit()
+
+        return jsonify({'message': 'User updated successfully'})
+
+    return jsonify({'message': 'User not found'}), 404
