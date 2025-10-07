@@ -2,7 +2,7 @@
 
 # Produtos
 
-- [x] Deve ser possível cadastrar um produto 
+- [x] Deve ser possível cadastrar um produto
 - [x] Deve ser possível deletar um produto
 - [x] Deve ser possível atualizar um produto
 - [x] Deve ser possível listar um produto pelo seu ID
@@ -11,6 +11,6 @@
 # Usuários
 
 - [x] Deve ser possível cadastrar um usuário
-- [] Deve ser possível deletar um usuário
-- [] Deve ser possível atualizar um usuário
-- [] 
+- [x] Deve ser possível deletar um usuário
+- [x] Deve ser possível atualizar um usuário
+- [] Deve ser possível realizar login
